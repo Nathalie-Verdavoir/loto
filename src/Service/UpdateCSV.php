@@ -119,10 +119,7 @@ class UpdateCSV
                         $result->setNumeroChance($row->getCells()[$indexOfNumeroChance]->getValue());
                         $resultRepository->save($result, true);
                     }
-
-
                 }
-
             }
         }
         return true;

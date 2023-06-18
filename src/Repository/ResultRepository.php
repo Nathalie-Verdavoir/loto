@@ -39,6 +39,18 @@ class ResultRepository extends ServiceEntityRepository
         }
     }
 
+    public function findLastTirage(): ?array
+    {
+        return $this->createQueryBuilder('r')
+            ->select('CONCAT(r.boule1,\',\',r.boule2,\',\',r.boule3,\',\',r.boule4,\',\',r.boule5) AS tirage1')
+            ->addSelect('CONCAT(r.boule1SecondTirage,\',\',r.boule2SecondTirage,\',\',r.boule3SecondTirage,\',\',r.boule4SecondTirage,\',\',r.boule5SecondTirage) AS tirage2')
+            ->addSelect('r.numero_chance')
+            ->addSelect('STR_TO_DATE(CONCAT(SUBSTRING(r.dateDeTirage,7),\'/\',SUBSTRING(r.dateDeTirage,4,2),\'/\',SUBSTRING(r.dateDeTirage,1,2)),\'%Y/%m/%d\') AS date')
+            ->orderBy('STR_TO_DATE(CONCAT(SUBSTRING(r.dateDeTirage,7),\'/\',SUBSTRING(r.dateDeTirage,4,2),\'/\',SUBSTRING(r.dateDeTirage,1,2)),\'%Y/%m/%d\')', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 //    /**
 //     * @return Result[] Returns an array of Result objects
 //     */
