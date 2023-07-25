@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\ResultRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedPath;
 
 #[ORM\Entity(repositoryClass: ResultRepository::class)]
 class Result
@@ -14,42 +16,68 @@ class Result
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['show_result'])]
+    #[SerializedPath('[annee_numero_de_tirage]')]
     private ?string $anneeNumeroDeTirage = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['show_result'])]
+    #[SerializedPath('[date_de_tirage]')]
     private ?string $dateDeTirage = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
+    #[Groups(['show_result'])]
+    #[SerializedPath('[boule_1]')]
     private ?int $boule1 = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
+    #[Groups(['show_result'])]
+    #[SerializedPath('[boule_2]')]
     private ?int $boule2 = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
+    #[Groups(['show_result'])]
+    #[SerializedPath('[boule_3]')]
     private ?int $boule3 = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
+    #[Groups(['show_result'])]
+    #[SerializedPath('[boule_4]')]
     private ?int $boule4 = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
+    #[Groups(['show_result'])]
+    #[SerializedPath('[boule_5]')]
     private ?int $boule5 = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
+    #[Groups(['show_result'])]
+    #[SerializedPath('[numero_chance]')]
     private ?int $numero_chance = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
+    #[Groups(['show_result'])]
+    #[SerializedPath('[boule_1_second_tirage]')]
     private ?int $boule1SecondTirage = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
+    #[Groups(['show_result'])]
+    #[SerializedPath('[boule_2_second_tirage]')]
     private ?int $boule2SecondTirage = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
+    #[Groups(['show_result'])]
+    #[SerializedPath('[boule_3_second_tirage]')]
     private ?int $boule3SecondTirage = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
+    #[Groups(['show_result'])]
+    #[SerializedPath('[boule_4_second_tirage]')]
     private ?int $boule4SecondTirage = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
+    #[Groups(['show_result'])]
+    #[SerializedPath('[boule_5_second_tirage]')]
     private ?int $boule5SecondTirage = null;
 
     public function getId(): ?int
