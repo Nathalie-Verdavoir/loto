@@ -53,4 +53,15 @@ class ResultController extends AbstractController
 
         return $response;
     }
+
+    #[Route('/stats', name: 'app_result_stats', options: ["expose" => true], methods: ['GET'])]
+    public function stats(ResultRepository $resultRepository): Response
+    {
+        $stats = $resultRepository->numberOfOccurence();
+
+        $response = new Response(json_encode(['stats' => $stats]));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
 }
