@@ -17,10 +17,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class LotoManageZipCommand extends Command
 {
-    private $projectDir;
     private $resultRepository;
 
-    public function __construct($projectDir, ResultRepository $resultRepository)
+    public function __construct(ResultRepository $resultRepository, $projectDir)
     {
         $this->projectDir = $projectDir;
         $this->resultRepository = $resultRepository;
@@ -39,7 +38,7 @@ class LotoManageZipCommand extends Command
 
 
         $updateCsv = new UpdateCSV($this->projectDir);
-        $uploadedStatusOk = $updateCsv->update();
+        $uploadedStatusOk = $updateCsv->downloadAndUnzip();
         if ($uploadedStatusOk) {
             $updateCsv->populate($this->resultRepository);
         }

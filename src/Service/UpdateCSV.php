@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Entity\Result;
 use App\Repository\ResultRepository;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuilder;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
@@ -17,29 +16,23 @@ class UpdateCSV
     private string $destination_path;
     private string $projectDir;
 
-    public function __construct(
-        $projectDir,
-        $zip_url = "https://media.fdj.fr/static/csv/loto/loto_201911.zip",
-        $destination_path = '/public/loto_201911.zip'
-    )
+    public function __construct($projectDir)
     {
         $this->projectDir = $projectDir;
-        $this->zip_url = $zip_url;
-        $this->destination_path = $destination_path;
+        $this->zip_url = $_ENV['URL_LOTO'];
+        $this->destination_path = 'public/upload';
     }
 
-    public function update(): bool
+    public function downloadAndUnzip(): bool
     {
         try {
-
-            $filesystem = new Filesystem();
-            $filesystem->exists($this->projectDir . '/public/loto_201911.zip');
-            file_put_contents($this->projectDir . '/' . $this->destination_path, fopen($this->zip_url, 'r'));
+            $new_zip_dir = $this->projectDir . '/public/loto_201911.zip';
+            file_put_contents($new_zip_dir, fopen($this->zip_url, 'r'));
             $zip = new \ZipArchive();
-            $zip->open($this->projectDir . '/' . $this->destination_path);
-            $zip->extractTo($this->projectDir . '/' . "upload");
+            $zip->open($new_zip_dir);
+            $zip->extractTo($this->projectDir . '/' . $this->destination_path);
             $zip->close();
-            unlink($this->projectDir . '/' . $this->destination_path);
+            unlink($new_zip_dir);
 
             return true;
 
