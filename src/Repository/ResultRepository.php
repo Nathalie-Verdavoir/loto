@@ -137,14 +137,14 @@ class ResultRepository extends ServiceEntityRepository
 
         $sql =
             '
-            WITH ra AS( SELECT count(*) AS count
-                            FROM `result` WHERE 1
-                            )
+           
             SELECT  
                     r.numero_chance AS numero,
                     ROUND((COALESCE((r.numero_chance),0))*100/ra.count,2) AS total
             FROM `result` r
-            INNER JOIN ra ON 1=1
+            INNER JOIN ( SELECT count(*) AS count
+                            FROM `result` WHERE 1
+                            ) ON 1=1
             WHERE 1
             GROUP BY r.numero_chance
             ORDER BY r.numero_chance ASC;
