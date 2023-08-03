@@ -57,72 +57,97 @@ class ResultRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
         $sql =
-            'WITH r2 AS( SELECT  boule2,COUNT(boule2) as count_boule2
+            'WITH r2 AS( SELECT  boule2,COUNT(boule2) AS count_boule2
                             FROM `result` WHERE 1
-                            GROUP by boule2),
-                    r3 AS( SELECT  boule3,COUNT(boule3) as count_boule3
+                            GROUP BY boule2),
+                    r3 AS( SELECT  boule3,COUNT(boule3) AS count_boule3
                             FROM `result` WHERE 1
-                            GROUP by boule3),
-                    r4 AS( SELECT  boule4,COUNT(boule4) as count_boule4
+                            GROUP BY boule3),
+                    r4 AS( SELECT  boule4,COUNT(boule4) AS count_boule4
                             FROM `result` WHERE 1
-                            GROUP by boule4),
-                    r5 AS( SELECT  boule5,COUNT(boule5) as count_boule5
+                            GROUP BY boule4),
+                    r5 AS( SELECT  boule5,COUNT(boule5) AS count_boule5
                             FROM `result` WHERE 1
-                            GROUP by boule5),
-                    rd1 AS( SELECT  boule1_second_tirage,COUNT(boule1_second_tirage) as count_boule1_second_tirage
+                            GROUP BY boule5),
+                    rd1 AS( SELECT  boule1_second_tirage,COUNT(boule1_second_tirage) AS count_boule1_second_tirage
                             FROM `result` WHERE 1
-                            GROUP by boule1_second_tirage),
-                    rd2 AS( SELECT  boule2_second_tirage,COUNT(boule2_second_tirage) as count_boule2_second_tirage
+                            GROUP BY boule1_second_tirage),
+                    rd2 AS( SELECT  boule2_second_tirage,COUNT(boule2_second_tirage) AS count_boule2_second_tirage
                             FROM `result` WHERE 1
-                            GROUP by boule2_second_tirage),
-                    rd3 AS( SELECT  boule3_second_tirage,COUNT(boule3_second_tirage) as count_boule3_second_tirage
+                            GROUP BY boule2_second_tirage),
+                    rd3 AS( SELECT  boule3_second_tirage,COUNT(boule3_second_tirage) AS count_boule3_second_tirage
                             FROM `result` WHERE 1
-                            GROUP by boule3_second_tirage),
-                    rd4 AS( SELECT  boule4_second_tirage,COUNT(boule4_second_tirage) as count_boule4_second_tirage
+                            GROUP BY boule3_second_tirage),
+                    rd4 AS( SELECT  boule4_second_tirage,COUNT(boule4_second_tirage) AS count_boule4_second_tirage
                             FROM `result` WHERE 1
-                            GROUP by boule4_second_tirage),
-                    rd5 AS( SELECT  boule5_second_tirage,COUNT(boule5_second_tirage) as count_boule5_second_tirage
+                            GROUP BY boule4_second_tirage),
+                    rd5 AS( SELECT  boule5_second_tirage,COUNT(boule5_second_tirage) AS count_boule5_second_tirage
                             FROM `result` WHERE 1
-                            GROUP by boule5_second_tirage),
-                    ra AS( SELECT count(*) as count
+                            GROUP BY boule5_second_tirage),
+                    ra AS( SELECT count(*) AS count
                             FROM `result` WHERE 1
                             )
             SELECT  
-                    r.boule1 as numero,
-                    ROUND((coalesce((r.boule1),0)
-                    +coalesce(r2.count_boule2,0)
-                    +coalesce(r3.count_boule3,0)
-                    +coalesce(r4.count_boule4,0)
-                    +coalesce(r5.count_boule5,0))*100/ra.count,2) AS total,
-                    ROUND((coalesce(rd1.count_boule1_second_tirage,0)
-                    +coalesce(rd2.count_boule2_second_tirage,0)
-                    +coalesce(rd3.count_boule3_second_tirage,0)
-                    +coalesce(rd4.count_boule4_second_tirage,0)
-                    +coalesce(rd5.count_boule5_second_tirage,0))*100/ra.count,2) AS total2,
-                    ROUND((coalesce((r.boule1),0)
-                    +coalesce(r2.count_boule2,0)
-                    +coalesce(r3.count_boule3,0)
-                    +coalesce(r4.count_boule4,0)
-                    +coalesce(r5.count_boule5,0)
-                    +coalesce(rd1.count_boule1_second_tirage,0)
-                    +coalesce(rd2.count_boule2_second_tirage,0)
-                    +coalesce(rd3.count_boule3_second_tirage,0)
-                    +coalesce(rd4.count_boule4_second_tirage,0)
-                    +coalesce(rd5.count_boule5_second_tirage,0))*100/(ra.count*2),2) as moy
+                    r.boule1 AS numero,
+                    ROUND((COALESCE((r.boule1),0)
+                    +COALESCE(r2.count_boule2,0)
+                    +COALESCE(r3.count_boule3,0)
+                    +COALESCE(r4.count_boule4,0)
+                    +COALESCE(r5.count_boule5,0))*100/ra.count,2) AS total,
+                    ROUND((COALESCE(rd1.count_boule1_second_tirage,0)
+                    +COALESCE(rd2.count_boule2_second_tirage,0)
+                    +COALESCE(rd3.count_boule3_second_tirage,0)
+                    +COALESCE(rd4.count_boule4_second_tirage,0)
+                    +COALESCE(rd5.count_boule5_second_tirage,0))*100/ra.count,2) AS total2,
+                    ROUND((COALESCE((r.boule1),0)
+                    +COALESCE(r2.count_boule2,0)
+                    +COALESCE(r3.count_boule3,0)
+                    +COALESCE(r4.count_boule4,0)
+                    +COALESCE(r5.count_boule5,0)
+                    +COALESCE(rd1.count_boule1_second_tirage,0)
+                    +COALESCE(rd2.count_boule2_second_tirage,0)
+                    +COALESCE(rd3.count_boule3_second_tirage,0)
+                    +COALESCE(rd4.count_boule4_second_tirage,0)
+                    +COALESCE(rd5.count_boule5_second_tirage,0))*100/(ra.count*2),2) AS moy
             FROM `result` r
-            inner join ra ON 1=1
-            left join r2 ON r.boule1=r2.boule2
-            left join r3 ON r.boule1=r3.boule3
-            left join r4 ON r.boule1=r4.boule4
-            left join r5 ON r.boule1=r5.boule5
-            left join rd1 ON r.boule1=rd1.boule1_second_tirage
-            left join rd2 ON r.boule1=rd2.boule2_second_tirage
-            left join rd3 ON r.boule1=rd3.boule3_second_tirage
-            left join rd4 ON r.boule1=rd4.boule4_second_tirage
-            left join rd5 ON r.boule1=rd5.boule5_second_tirage
+            INNER JOIN ra ON 1=1
+            LEFT JOIN r2 ON r.boule1=r2.boule2
+            LEFT JOIN r3 ON r.boule1=r3.boule3
+            LEFT JOIN r4 ON r.boule1=r4.boule4
+            LEFT JOIN r5 ON r.boule1=r5.boule5
+            LEFT JOIN rd1 ON r.boule1=rd1.boule1_second_tirage
+            LEFT JOIN rd2 ON r.boule1=rd2.boule2_second_tirage
+            LEFT JOIN rd3 ON r.boule1=rd3.boule3_second_tirage
+            LEFT JOIN rd4 ON r.boule1=rd4.boule4_second_tirage
+            LEFT JOIN rd5 ON r.boule1=rd5.boule5_second_tirage
             WHERE 1
-            GROUP by r.boule1
-            order by moy desc;
+            GROUP BY r.boule1
+            ORDER BY r.boule1 ASC;
+
+            ';
+
+        $resultSet = $conn->executeQuery($sql,);
+        // returns an array of arrays (i.e. a raw data set)
+        return $resultSet->fetchAllAssociative();
+    }
+
+    public function numberOfOccurenceNumeroChance(): ?array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql =
+            '
+            WITH ra AS( SELECT count(*) AS count
+                            FROM `result` WHERE 1
+                            )
+            SELECT  
+                    r.numero_chance AS numero,
+                    ROUND((COALESCE((r.numero_chance),0))*100/ra.count,2) AS total
+            FROM `result` r
+            INNER JOIN ra ON 1=1
+            WHERE 1
+            GROUP BY r.numero_chance
+            ORDER BY r.numero_chance ASC;
 
             ';
 
