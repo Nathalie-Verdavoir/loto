@@ -57,36 +57,7 @@ class ResultRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
         $sql =
-            'WITH r2 AS( SELECT  boule2,COUNT(boule2) AS count_boule2
-                            FROM `result` WHERE 1
-                            GROUP BY boule2),
-                    r3 AS( SELECT  boule3,COUNT(boule3) AS count_boule3
-                            FROM `result` WHERE 1
-                            GROUP BY boule3),
-                    r4 AS( SELECT  boule4,COUNT(boule4) AS count_boule4
-                            FROM `result` WHERE 1
-                            GROUP BY boule4),
-                    r5 AS( SELECT  boule5,COUNT(boule5) AS count_boule5
-                            FROM `result` WHERE 1
-                            GROUP BY boule5),
-                    rd1 AS( SELECT  boule1_second_tirage,COUNT(boule1_second_tirage) AS count_boule1_second_tirage
-                            FROM `result` WHERE 1
-                            GROUP BY boule1_second_tirage),
-                    rd2 AS( SELECT  boule2_second_tirage,COUNT(boule2_second_tirage) AS count_boule2_second_tirage
-                            FROM `result` WHERE 1
-                            GROUP BY boule2_second_tirage),
-                    rd3 AS( SELECT  boule3_second_tirage,COUNT(boule3_second_tirage) AS count_boule3_second_tirage
-                            FROM `result` WHERE 1
-                            GROUP BY boule3_second_tirage),
-                    rd4 AS( SELECT  boule4_second_tirage,COUNT(boule4_second_tirage) AS count_boule4_second_tirage
-                            FROM `result` WHERE 1
-                            GROUP BY boule4_second_tirage),
-                    rd5 AS( SELECT  boule5_second_tirage,COUNT(boule5_second_tirage) AS count_boule5_second_tirage
-                            FROM `result` WHERE 1
-                            GROUP BY boule5_second_tirage),
-                    ra AS( SELECT count(*) AS count
-                            FROM `result` WHERE 1
-                            )
+            '
             SELECT  
                     r.boule1 AS numero,
                     ROUND((COALESCE((r.boule1),0)
@@ -110,16 +81,36 @@ class ResultRepository extends ServiceEntityRepository
                     +COALESCE(rd4.count_boule4_second_tirage,0)
                     +COALESCE(rd5.count_boule5_second_tirage,0))*100/(ra.count*2),2) AS moy
             FROM `result` r
-            INNER JOIN ra ON 1=1
-            LEFT JOIN r2 ON r.boule1=r2.boule2
-            LEFT JOIN r3 ON r.boule1=r3.boule3
-            LEFT JOIN r4 ON r.boule1=r4.boule4
-            LEFT JOIN r5 ON r.boule1=r5.boule5
-            LEFT JOIN rd1 ON r.boule1=rd1.boule1_second_tirage
-            LEFT JOIN rd2 ON r.boule1=rd2.boule2_second_tirage
-            LEFT JOIN rd3 ON r.boule1=rd3.boule3_second_tirage
-            LEFT JOIN rd4 ON r.boule1=rd4.boule4_second_tirage
-            LEFT JOIN rd5 ON r.boule1=rd5.boule5_second_tirage
+            INNER JOIN ( SELECT count(*) AS count
+                            FROM `result` WHERE 1
+                            ) ra ON 1=1
+            LEFT JOIN ( SELECT  boule2,COUNT(boule2) AS count_boule2
+                            FROM `result` WHERE 1
+                            GROUP BY boule2) r2 ON r.boule1=r2.boule2
+            LEFT JOIN ( SELECT  boule3,COUNT(boule3) AS count_boule3
+                            FROM `result` WHERE 1
+                            GROUP BY boule3) r3 ON r.boule1=r3.boule3
+            LEFT JOIN ( SELECT  boule4,COUNT(boule4) AS count_boule4
+                            FROM `result` WHERE 1
+                            GROUP BY boule4) r4 ON r.boule1=r4.boule4
+            LEFT JOIN ( SELECT  boule5,COUNT(boule5) AS count_boule5
+                            FROM `result` WHERE 1
+                            GROUP BY boule5) r5 ON r.boule1=r5.boule5
+            LEFT JOIN ( SELECT  boule1_second_tirage,COUNT(boule1_second_tirage) AS count_boule1_second_tirage
+                            FROM `result` WHERE 1
+                            GROUP BY boule1_second_tirage) rd1 ON r.boule1=rd1.boule1_second_tirage
+            LEFT JOIN ( SELECT  boule2_second_tirage,COUNT(boule2_second_tirage) AS count_boule2_second_tirage
+                            FROM `result` WHERE 1
+                            GROUP BY boule2_second_tirage) rd2 ON r.boule1=rd2.boule2_second_tirage
+            LEFT JOIN ( SELECT  boule3_second_tirage,COUNT(boule3_second_tirage) AS count_boule3_second_tirage
+                            FROM `result` WHERE 1
+                            GROUP BY boule3_second_tirage) rd3 ON r.boule1=rd3.boule3_second_tirage
+            LEFT JOIN ( SELECT  boule4_second_tirage,COUNT(boule4_second_tirage) AS count_boule4_second_tirage
+                            FROM `result` WHERE 1
+                            GROUP BY boule4_second_tirage) rd4 ON r.boule1=rd4.boule4_second_tirage
+            LEFT JOIN ( SELECT  boule5_second_tirage,COUNT(boule5_second_tirage) AS count_boule5_second_tirage
+                            FROM `result` WHERE 1
+                            GROUP BY boule5_second_tirage) rd5 ON r.boule1=rd5.boule5_second_tirage
             WHERE 1
             GROUP BY r.boule1
             ORDER BY r.boule1 ASC;

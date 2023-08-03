@@ -14,8 +14,8 @@ class StatsController extends AbstractController
     #[Route('/stats', name: 'app_stats')]
     public function index(ResultRepository $resultRepository, ChartBuilderInterface $chartBuilder): Response
     {
-        // $stats = $resultRepository->numberOfOccurence();
-        $stats = $resultRepository->numberOfOccurenceNumeroChance();
+        $stats = $resultRepository->numberOfOccurence();
+        //$stats = $resultRepository->numberOfOccurenceNumeroChance();
         $statsNumeroChance = $resultRepository->numberOfOccurenceNumeroChance();
 
         $chart = $chartBuilder->createChart(Chart::TYPE_LINE);
