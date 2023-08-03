@@ -144,7 +144,7 @@ class ResultRepository extends ServiceEntityRepository
             FROM `result` r
             INNER JOIN ( SELECT count(*) AS count
                             FROM `result` WHERE 1
-                            ) ON 1=1
+                            ) ra ON 1=1
             WHERE 1
             GROUP BY r.numero_chance
             ORDER BY r.numero_chance ASC;
