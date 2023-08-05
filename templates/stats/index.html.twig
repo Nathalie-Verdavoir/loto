@@ -24,11 +24,11 @@
         <h1>Les Stats !</h1>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <div class="container d-flex">
-        <span class="col-12 col-lg-9 p-9">
+    <div class="container d-flex flex-column flex-lg-row  justify-content-center">
+        <span class="col-12 col-lg-9 p-9 justify-content-center mx-auto">
             {{ render_chart(chart, {'class': 'ux-chart-line'}) }}
         </span>
-        <span class="col-4 col-lg-3  p-3">
+        <span class="col-8 col-lg-3  p-3 justify-content-center mx-auto">
             {{ render_chart(chart2, {'class': 'ux-chart-do'}) }}
         </span>
     </div>
